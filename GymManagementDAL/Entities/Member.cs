@@ -32,6 +32,11 @@ namespace GymManagementDAL.Entities
 
         public ICollection<MemberSessions> MemberSessions { get; set; } = null!;
 
+        public static implicit operator Member(Member v)
+        {
+            throw new NotImplementedException();
+        }
+
 
 
         #endregion

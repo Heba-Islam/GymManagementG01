@@ -20,6 +20,7 @@ namespace GymManagementBLL.BusinnessServices.Implementation
         }
 
         //all functions deal with modellllls not repos
+        #region Get All Members
         public IEnumerable<MemberViewModel> GetAllMembers()
         {
             var members = _memberRepoistory.GetAll();
@@ -65,5 +66,44 @@ namespace GymManagementBLL.BusinnessServices.Implementation
             return ListOfMemberViewModels;
 
         }
+        #endregion
+
+        #region create member
+
+        public bool CreateMember(CreateAMemberViewModel createAMember)
+        {
+            var doesEmailExist = _memberRepoistory.GetAll(x => x.Email == createAMember.Email).Any();
+            var doesPhoneExist = _memberRepoistory.GetAll(x => x.Phone == createAMember.Email).Any();
+
+            if (doesEmailExist || doesPhoneExist)
+                return false;
+
+            var member = new Member
+            {
+                Name = createAMember.Name,
+                Email = createAMember.Email,
+                Phone = createAMember.Phone,
+                Gender = createAMember.Gender,
+                BirthDay = createAMember.DateOfBirth,
+                Address = new Address
+                {
+                    BuildingNumber = createAMember.BuildingNumber,
+                    Street = createAMember.Street,
+                    City = createAMember.City,
+                },
+                HealthRecord = new HealthRecord
+                {
+                    BloodType = createAMember.HealthRecord.BloodType,
+                    Height = createAMember.HealthRecord.Height,
+                    Weight = createAMember.HealthRecord.Weight,
+                    Notes = createAMember.HealthRecord.Note,
+                },
+
+            };
+
+            return _memberRepoistory.Add(member)>0;
+
+        }
+        #endregion
     }
 }
