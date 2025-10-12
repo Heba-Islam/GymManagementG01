@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Entities
 {
-    internal class HealthRecord:BaseEntity
+    public class HealthRecord:BaseEntity
     {
         public decimal Weight { get; set; }
 
         public decimal Height { get; set; }
 
-        public string BloodType { get; set; }
+        public string BloodType { get; set; } = null!;
 
         public string? Notes { get; set; }
 

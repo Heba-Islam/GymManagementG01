@@ -7,20 +7,17 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Entities
 {
-    internal class Membership:BaseEntity
+    public class Membership:BaseEntity
     {
         public int MemberId { get; set; }
-        [Required]
 
-        public Member Member { get; set; }
-        [Required]
+        public Member Member { get; set; } = null!;
 
-        public Plan Plan { get; set; }
+        public Plan Plan { get; set; } = null!;
         public int PlanId { get; set; }
 
         public DateTime EndDate { get; set; }
 
-        [Required]
 
         public string Status
         {
@@ -35,7 +32,7 @@ namespace GymManagementDAL.Entities
                     return "Active";
                 }
             }
-            set;
+            
         }
 
     }

@@ -9,23 +9,26 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Data.Configurations
 {
-    internal class PlanConfiguration : IEntityTypeConfiguration<Plan>
+    public class PlanConfiguration : IEntityTypeConfiguration<Plan>
     {
         public void Configure(EntityTypeBuilder<Plan> builder)
         {
             builder.Property(x => x.Name)
-                .HasColumnType("varchar(50)");
-
-            builder.Property(x => x.Price)
-                .HasColumnType("decimal(10,2)");
+                 .HasColumnType("varchar")
+                 .HasMaxLength(50);
 
             builder.Property(x => x.Description)
-                .HasColumnType("varchar(200)");
+                .HasColumnType("varchar")
+                .HasMaxLength(200);
 
-            builder.ToTable(tb => tb.HasCheckConstraint("DurationDaysConstraint",
-                "DurationDays between 1 and 365"));
+            builder.Property(x => x.Price)
+                .HasPrecision(10, 2);
 
-            
+
+            builder.ToTable(tb =>
+            {
+                tb.HasCheckConstraint("PlanDurationCheck", "DurationDays Between 1 and 365");
+            });
         }
     }
 }

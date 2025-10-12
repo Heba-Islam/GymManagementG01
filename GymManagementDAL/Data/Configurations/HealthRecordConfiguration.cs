@@ -13,15 +13,15 @@ namespace GymManagementDAL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<HealthRecord> builder)
         {
-            builder.ToTable("Members").HasKey(x=>x.Id);
-
-            builder.HasOne<Member>()
-                .WithOne(m => m.HealthRecord)
-                .HasForeignKey<HealthRecord>(x => x.Id);
+            builder.ToTable("Members")
+                .HasKey(x => x.Id);
 
             builder.Ignore(x => x.CreatedAt);
+            builder.Ignore(x => x.UpdatedAt);
 
-
+            builder.HasOne<Member>()
+                .WithOne(x => x.HealthRecord)
+                .HasForeignKey<HealthRecord>(x => x.Id);
         }
     }
 }

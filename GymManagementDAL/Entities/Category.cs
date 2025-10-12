@@ -9,17 +9,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GymManagementDAL.Entities
 {
-    internal class Category:BaseEntity
+    public class Category:BaseEntity
     {
-        [Required]
 
-        public string CategoryName { get; set; }
+        public string CategoryName { get; set; } = null!;
 
         #region relationships
         #region has many sessions
-        [Required]
-
-        public ICollection<Session> Sessions { get; set; }
+        public ICollection<Session> Sessions { get; set; } = null!;
 
         #endregion
         #endregion

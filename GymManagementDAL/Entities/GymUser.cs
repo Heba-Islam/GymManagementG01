@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Entities
 {
-    internal abstract class GymUser:BaseEntity
+    public abstract class GymUser:BaseEntity
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
 
-        public string Phone { get; set; }
+        public string Phone { get; set; } = null!;
 
         public DateOnly BirthDay { get; set; }
 
         public Gender Gender { get; set; }
 
-        public Address Address { get; set; }
+        public Address Address { get; set; } = null!;
 
     }
 
@@ -29,9 +29,11 @@ namespace GymManagementDAL.Entities
     {
         public int BuildingNumber { get; set; }
 
-        public string street { get; set; }
+        public string Street { get; set; } = null!;
 
-        public string City { get; set; }
+
+        public string City { get; set; } = null!;
+
 
 
     }

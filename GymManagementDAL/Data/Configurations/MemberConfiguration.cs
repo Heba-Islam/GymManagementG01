@@ -9,17 +9,15 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Data.Configurations
 {
-    internal class MemberConfiguration : GymUserConfiguration<Member>, IEntityTypeConfiguration<Member>
+    public class MemberConfiguration : GymUserConfiguration<Member>, IEntityTypeConfiguration<Member>
     {
-        public new void Configure(EntityTypeBuilder<Member> builder)
+        public new void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Member> builder)
         {
             builder.Property(x => x.CreatedAt)
                 .HasColumnName("JoinDate")
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("GETDATE()");
 
             base.Configure(builder);
-
-
         }
     }
 }

@@ -7,27 +7,24 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Entities
 {
-    internal class Plan : BaseEntity
+    public class Plan : BaseEntity
     {
-        [Required]
 
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         public int DurationDays { get; set; }
 
         public decimal Price { get; set; }
 
-        [Required]
 
-        public string Description { get; set; }
+        public string Description { get; set; } = null!;
 
         public bool IsActive { get; set; }
 
         #region relationships
         #region has many memberships
-        [Required]
 
-        public ICollection<Membership> Memberships { get; set; }
+        public ICollection<Membership> Memberships { get; set; } = null!;
 
 
         #endregion

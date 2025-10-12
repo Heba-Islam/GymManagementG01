@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Entities
 {
-    internal class Trainer:GymUser
+    public class Trainer:GymUser
     {
         public Speciality Speciality { get; set; }
 
@@ -16,8 +16,7 @@ namespace GymManagementDAL.Entities
 
         #region Realtionships
         #region has many sessions
-        [Required]
-        public ICollection<Session> Sessions { get; set; }
+        public ICollection<Session> Sessions { get; set; } = null!;
 
         #endregion
         #endregion

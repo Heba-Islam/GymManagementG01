@@ -9,18 +9,17 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Data.Configurations
 {
-    internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.Property(x => x.CategoryName)
-                .HasColumnType("varchar(50)");
+                 .HasColumnType("varchar")
+                 .HasMaxLength(20);
 
             builder.HasMany(c => c.Sessions)
                 .WithOne(s => s.Category)
                 .HasForeignKey(s => s.CategoryId);
-
-
         }
     }
 }

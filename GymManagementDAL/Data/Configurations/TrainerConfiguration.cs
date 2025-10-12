@@ -9,20 +9,14 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Data.Configurations
 {
-    internal class TrainerConfiguration : GymUserConfiguration<Trainer> , IEntityTypeConfiguration<Trainer>
+    public class TrainerConfiguration : GymUserConfiguration<Trainer>, IEntityTypeConfiguration<Trainer>
     {
-        public new void Configure(EntityTypeBuilder<Trainer> builder)
+        public new void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Trainer> builder)
         {
             builder.Property(x => x.CreatedAt)
                 .HasColumnName("HireDate")
-                .HasDefaultValueSql("getdate()");
-
+                .HasDefaultValueSql("GETDATE()");
             base.Configure(builder);
-
-
-            
-
-
         }
     }
 }

@@ -7,17 +7,15 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Entities
 {
-    internal class MemberSessions : BaseEntity
+    public class MemberSessions : BaseEntity
     {
         public int MemberId { get; set; }
-        [Required]
 
-        public Member Member { get; set; }
+        public Member Member { get; set; } = null!;
 
         public int SessionId { get; set; }
-        [Required]
 
-        public Session Session { get; set; }
+        public Session Session { get; set; } = null!;
 
         public bool IsAttended { get; set; }
 

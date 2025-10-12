@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Entities
 {
-    internal class Session:BaseEntity
+    public class Session:BaseEntity
     {
-        public string Description { get; set; }
+        public string Description { get; set; } = null!;
 
         public int Capacity { get; set; }
 
@@ -19,7 +19,7 @@ namespace GymManagementDAL.Entities
 
         #region relationships
         #region category session
-        public Category Category { get; set; }
+        public Category Category { get; set; } = null!;
 
         public int CategoryId { get; set; }
 
@@ -27,15 +27,14 @@ namespace GymManagementDAL.Entities
 
         #region Trainer session
 
-        public Trainer Trainer { get; set; }
+        public Trainer Trainer { get; set; } = null!;
 
         public int TrainerId { get; set; }
 
         #endregion
 
         #region has many members
-        [Required]
-        public ICollection<MemberSessions> SessionMembers { get; set; }
+        public ICollection<MemberSessions> SessionMembers { get; set; } = null!;
 
         #endregion
 

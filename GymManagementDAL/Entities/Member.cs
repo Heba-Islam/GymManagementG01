@@ -7,34 +7,31 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Entities
 {
-    internal class Member:GymUser
+    public class Member:GymUser
     {
-        [Required]
 
-        public string Photo { get; set; }
+        public string? Photo { get; set; }
         //joinDate == CreatedAt
 
         #region Relationships
 
         #region has health record
-        [Required]
 
-        public HealthRecord HealthRecord { get; set; }
+        public HealthRecord HealthRecord { get; set; } = null!;
 
         #endregion
 
         #region member has memberships
-        [Required]
 
-        public ICollection<Membership> Memberships { get; set; }
+        public ICollection<Membership> Memberships { get; set; } = null!;
 
 
         #endregion
 
         #region member has many sessions
-        [Required]
 
-        public ICollection<MemberSessions> MemberSessions { get; set; }
+        public ICollection<MemberSessions> MemberSessions { get; set; } = null!;
+
 
 
         #endregion

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GymManagementDAL.Data.Configurations
 {
-    internal class SessionConfiguration : IEntityTypeConfiguration<Session>
+    public class SessionConfiguration : IEntityTypeConfiguration<Session>
     {
         public void Configure(EntityTypeBuilder<Session> builder)
         {
@@ -28,6 +28,8 @@ namespace GymManagementDAL.Data.Configurations
             builder.HasOne(s => s.Trainer)
                 .WithMany(t => t.Sessions)
                 .HasForeignKey(s => s.TrainerId);
+
+            
 
         }
     }
