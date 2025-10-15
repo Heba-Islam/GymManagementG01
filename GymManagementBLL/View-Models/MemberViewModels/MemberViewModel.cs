@@ -18,6 +18,20 @@ namespace GymManagementBLL.View_Models
 
         public string Gender { get; set; } = null!;
 
+        public string Phone { get; set; } = null!;
+
+        public string? PlanName { get; set; }
+
+        public string? Birthday { get; set; }
+
+        public string? Address { get; set; }
+
+        public string? MembershipStartDate { get; set; }
+
+        public string? MembershipEndDate { get; set; }
+
+
+
 
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GymManagementDAL.Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -32,7 +33,7 @@ namespace GymManagementBLL.View_Models
 
         [Required(ErrorMessage = "gender is mandatory")]
 
-        public string Gender { get; set; } = null!;
+        public Gender Gender { get; set; }
 
         public int BuildingNumber { get; set; }
 
@@ -43,6 +44,9 @@ namespace GymManagementBLL.View_Models
         [Required(ErrorMessage = "city is mandatory")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "city must be be between 2 and 50 chars ")]
         public string City { get; set; } = null!;
+
+        [Required(ErrorMessage = "healthRecord is required")]
+        public HealthRecordViewModel HealthRecord { get; set; } = null!;
 
 
     }

@@ -12,10 +12,7 @@ namespace GymManagementDAL.Repositories.implementation
     public class PlanRepository : IPlanRepository
     {
         private readonly GymDbContext dbContext;
-        public PlanRepository()
-        {
-
-        }
+       
         public PlanRepository(GymDbContext dbContext)
         {
             this.dbContext = dbContext;
