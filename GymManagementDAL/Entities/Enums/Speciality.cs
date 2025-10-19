@@ -8,8 +8,8 @@ namespace GymManagementDAL.Entities.Enums
 {
     public enum Speciality
     {
-        WeightLoss =1,
-        Fitness,
+        GeneralFitness = 1,
+        Boxing,
         CrossFit,
         Yoga
     }
