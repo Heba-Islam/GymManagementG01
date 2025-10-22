@@ -1,4 +1,5 @@
-﻿using GymManagementBLL.BusinnessServices.Interfaces;
+﻿using AutoMapper;
+using GymManagementBLL.BusinnessServices.Interfaces;
 using GymManagementBLL.View_Models.PlanViewModels;
 using GymManagementDAL.Entities;
 using GymManagementDAL.Repositories.Interfaces;
@@ -11,125 +12,114 @@ using System.Threading.Tasks;
 
 namespace GymManagementBLL.BusinnessServices.Implementation
 {
-    public class PlanService : IPlanService
+
+    namespace GymManagementBLL.BusinessServices.Implementation
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-
-        public PlanService(IUnitOfWork unitOfWork)
+        internal class PlanService : IPlanService
         {
-            _unitOfWork = unitOfWork;
-        }
+            private readonly IUnitOfWork _unitOfWork;
+            private readonly IMapper _mapper;
 
-        #region Get all plans
-        public IEnumerable<PlanViewModel> GetAllPlans()
-        {
-            var plans = _unitOfWork.GetRepository<Plan>().GetAll();
-            if (plans is null || !plans.Any()) return [];
-
-            var allPlans = plans.Select(x => new PlanViewModel()
+            public PlanService(IUnitOfWork unitOfWork, IMapper mapper)
             {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                DurationDays = x.DurationDays,
-                IsActive = x.IsActive,
-                Price = x.Price
-            });
-            return allPlans;
-        }
-        #endregion
+                _unitOfWork = unitOfWork;
+                _mapper = mapper;
+            }
 
-        #region Get plan details
-        public PlanViewModel? GetPlanDetails(int planId)
-        {
-            var plan = _unitOfWork.GetRepository<Plan>().GetById(planId);
-            if (plan is null) return null;
-
-            return new PlanViewModel()
+            #region get all plans
+            public IEnumerable<PlanViewModel> GetAllPlans()
             {
-                Id = plan.Id,
-                Name = plan.Name,
-                Description = plan.Description,
-                DurationDays = plan.DurationDays,
-                IsActive = plan.IsActive,
-                Price = plan.Price
-            };
-        }
-        #endregion
+                var plans = _unitOfWork.GetRepository<Plan>().GetAll();
 
-        #region Plan to update details
-        public PlanToUpdateViewModel? GetPlanDetailsToUpdate(int planId)
-        {
-            var plan = _unitOfWork.GetRepository<Plan>().GetById(planId);
-            if (plan is null || plan.IsActive == false || HasActiveMemberships(planId)) return null;
+                if (plans is null || !plans.Any())
+                    return [];
 
-            return new PlanToUpdateViewModel()
+                return _mapper.Map<IEnumerable<PlanViewModel>>(plans);
+            }
+
+            #endregion
+
+            #region get plan details
+            public PlanViewModel? GetPlanDetails(int PlanId)
             {
-                Name = plan.Name,
-                Description = plan.Description,
-                DurationDays = plan.DurationDays,
-                Price = plan.Price
-            };
-        }
-        #endregion
+                var plan = _unitOfWork.GetRepository<Plan>().GetById(PlanId);
 
-        #region update plan 
-        public bool UpdatePlan(int planId, PlanToUpdateViewModel planToUpdate)
-        {
-            try
+                if (plan is null) return null;
+
+                return _mapper.Map<PlanViewModel>(plan);
+            }
+            #endregion
+
+            #region get plan update details and update plan
+            public PlanToUpdateViewModel? GetPlanDetailsToUpdate(int PlanId)
             {
-                var plan = _unitOfWork.GetRepository<Plan>().GetById(planId);
-                if (plan is null || HasActiveMemberships(planId)) return false;
+                var plan = _unitOfWork.GetRepository<Plan>().GetById(PlanId);
+
+                if (plan is null || plan.IsActive == false || HasActiveMemberships(PlanId))
+                    return null;
+
+                return _mapper.Map<PlanToUpdateViewModel>(plan);
+            }
 
 
-                plan.Description = planToUpdate.Description;
-                plan.Price = planToUpdate.Price;
-                plan.DurationDays = planToUpdate.DurationDays;
+            public bool UpdatePlan(int planId, PlanToUpdateViewModel planToUpdate)
+            {
+                var planRepository = _unitOfWork.GetRepository<Plan>();
+                var plan = planRepository.GetById(planId);
+
+                if (plan is null || planToUpdate is null)
+                    return false;
+
+
+                _mapper.Map(planToUpdate, plan);
+
+                try
+                {
+
+                    planRepository.Update(plan);
+
+                    return _unitOfWork.SaveChanges() > 0;
+                }
+                catch (Exception)
+                {
+
+                    return false;
+                }
+
+            }
+
+
+            #endregion
+
+            #region soft delete a plan
+            public bool ToggleStatus(int planId)
+            {
+                var planRepo = _unitOfWork.GetRepository<Plan>();
+                var plan = planRepo.GetById(planId);
+
+                if (plan is null || HasActiveMemberships(planId))
+                    return false;
+
+                plan.IsActive = plan.IsActive == true ? false : true;
+
                 plan.UpdatedAt = DateTime.Now;
 
-                _unitOfWork.GetRepository<Plan>().Update(plan);
+                planRepo.Update(plan);
+
                 return _unitOfWork.SaveChanges() > 0;
-            }
-            catch (Exception)
+            } 
+            #endregion
+
+            #region Helper Methods
+
+            private bool HasActiveMemberships(int planId)
             {
-                return false;
+                var activeMemberships = _unitOfWork.GetRepository<Membership>()
+                    .GetAll(X => X.PlanId == planId && X.Status == "Active");
+
+                return activeMemberships.Any();
             }
+            #endregion
         }
-
-        #endregion
-
-        #region remove  a plan --soft delete
-        //delte plan
-        public bool ToggleStatus(int planId)
-        {
-            var plan = _unitOfWork.GetRepository<Plan>().GetById(planId);
-            if (plan is null || HasActiveMemberships(planId)) return false;
-
-            plan.IsActive = plan.IsActive == true ? false : true;
-            plan.UpdatedAt = DateTime.Now;
-
-            try
-            {
-                _unitOfWork.GetRepository<Plan>().Update(plan);
-                return _unitOfWork.SaveChanges() > 0;
-            }
-            catch (Exception )
-            {
-                return false;
-            }
-        }
-
-        #endregion
-
-        #region Helper methods
-
-        private bool HasActiveMemberships(int planId)
-        {
-            var ActiveMemberShip = _unitOfWork.GetRepository<Membership>().GetAll(x => x.PlanId == planId && x.Status == "Active").Any();
-            return ActiveMemberShip;
-        }
-
-        #endregion
     }
 }

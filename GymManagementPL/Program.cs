@@ -1,9 +1,11 @@
+using GymManagementBLL.BusinnessServices.Mapping;
 using GymManagementDAL.Data.Contexts;
 using GymManagementDAL.Data.DataSeeding;
 using GymManagementDAL.Repositories.implementation;
 using GymManagementDAL.Repositories.Implementation;
 using GymManagementDAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GymManagementPL
 {
@@ -13,12 +15,18 @@ namespace GymManagementPL
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
+
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<GymDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
             });
+
+            #region dependency injection 
+
+            builder.Services.AddAutoMapper(typeof(Mapping));
 
             builder.Services.AddScoped<IPlanRepository, PlanRepository>();
             //builder.Services.AddScoped<ISessionRepository, SessionRepository>();
@@ -28,6 +36,7 @@ namespace GymManagementPL
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped(typeof(ISessionRepository), typeof(SessionRepository));
 
+            #endregion
 
             var app = builder.Build();
 

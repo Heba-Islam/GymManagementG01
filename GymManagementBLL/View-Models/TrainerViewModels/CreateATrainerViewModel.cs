@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GymManagementBLL.View_Models.TrainerViewModels
 {
-    public class CreateATrianerViewModel
+    public class CreateATrainerViewModel
     {
         [Required(ErrorMessage = "Name is required")]
         [MaxLength(50, ErrorMessage = "a namw must be between 2 and 50")]

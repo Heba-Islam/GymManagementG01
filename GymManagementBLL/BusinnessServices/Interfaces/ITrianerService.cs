@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace GymManagementBLL.BusinnessServices.Interfaces
 {
-    public interface ITrianerService
+    public interface ITrainerService
     {
         public IEnumerable<TrainerViewModel> GetAllTrainers();
 
-        public bool CreateATrainer(CreateATrianerViewModel createATrianer);
-        public TrainerViewModel? GetMemberDetails(int memberId);
+        public bool CreateATrainer(CreateATrainerViewModel createATrianer);
+        public TrainerViewModel? GetTrainerDetails(int trainerId);
 
         public TrainerToUpdateViewModel? GetTrainerDetailsToUpdate(int trainerId);
 
