@@ -26,7 +26,7 @@ namespace GymManagementPL
 
             #region dependency injection 
 
-            builder.Services.AddAutoMapper(typeof(Mapping));
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             builder.Services.AddScoped<IPlanRepository, PlanRepository>();
             //builder.Services.AddScoped<ISessionRepository, SessionRepository>();

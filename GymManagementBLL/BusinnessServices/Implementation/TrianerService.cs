@@ -4,7 +4,7 @@ using GymManagementBLL.View_Models.TrainerViewModels;
 using GymManagementDAL.Entities;
 using GymManagementDAL.Repositories.Interfaces;
 
-namespace GymManagementBLL.BusinessServices.Implementation
+namespace GymManagementBLL.BusinnessServices.Implementation
 {
     internal class TrainerService : ITrainerService
     {
@@ -157,7 +157,7 @@ namespace GymManagementBLL.BusinessServices.Implementation
         private bool HasFutureSessions(int trainerId)
         {
             return _unitOfWork.GetRepository<Session>()
-                .GetAll(S => S.TrainerId == trainerId && S.StartDate > DateTime.Now)
+                .GetAll(S => S.TrainerId == trainerId && S.StartTime > DateTime.Now)
                 .Any();
         }
         #endregion

@@ -7,7 +7,7 @@ using GymManagementBLL.View_Models.TrainerViewModels;
 using GymManagementDAL.Entities;
 using GymManagementSystemBLL.View_Models.SessionVm;
 
-namespace GymManagementBLL.Mapping
+namespace GymManagementBLL.BusinnessServices.Mapping
 {
     public class MappingProfile : Profile
     {
@@ -97,7 +97,7 @@ namespace GymManagementBLL.Mapping
 
         private void MapTrainer()
         {
-            CreateMap<CreateATrianerViewModel, Trainer>()
+            CreateMap<CreateATrainerViewModel, Trainer>()
                 .ForMember(dest => dest.Address, opt => opt.MapFrom(src => new Address
                 {
                     BuildingNumber = src.BuildingNumber,
